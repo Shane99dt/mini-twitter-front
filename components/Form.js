@@ -1,29 +1,43 @@
 import { useState } from "react";
 import { Button, Text, TextInput, View } from "react-native";
+import { Login, Signup } from "../api/auth";
 import FormStyles from "../styles/FormStyles";
 
 const Form = ({ type }) => {
   const [firstName, setFirstName] = useState("Name 1");
   const [lastName, setLastName] = useState("Name 2");
   const [age, setAge] = useState("15");
-  const [email, setEmail] = useState("name@name.com");
-  const [password, setPassword] = useState("123456789");
+  const [email, setEmail] = useState("hello@yopmail.com");
+  const [password, setPassword] = useState("hellohello");
   const [passwordConfirmation, setPasswordConfirmation] = useState("123456789");
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
-  const handleChangeFirstName = (e) => {
-    setFirstName(e.target.value);
-  };
-
-  const handleSubmitSignUp = (e) => {
+  const handleSubmitSignUp = async (e) => {
     e.preventDefault();
 
     const user = {
-      firstName,
-      lastName,
-      age,
       email,
-      // password -> hash
+      password,
+      data: { firstName, lastName, age },
     };
+
+    const createUser = await Signup(user);
+    setUser(createUser);
+    console.log(createUser);
+  };
+
+  const handleSubmitLogin = async (e) => {
+    e.preventDefault();
+
+    const user = {
+      email,
+      password,
+    };
+
+    const loginUser = await Login(user);
+    setToken(loginUser);
+    console.log(loginUser);
   };
 
   return (
@@ -93,6 +107,26 @@ const Form = ({ type }) => {
       {type === "login" && (
         <View>
           <Text>Login</Text>
+          <View style={FormStyles.input}>
+            <Text>Email</Text>
+
+            <TextInput
+              value={email}
+              placeholder="Email"
+              onChangeText={(value) => setEmail(value)}
+            />
+          </View>
+          <View style={FormStyles.input}>
+            <Text>Password</Text>
+
+            <TextInput
+              value={password}
+              placeholder="Password"
+              onChangeText={(value) => setPassword(value)}
+              secureTextEntry
+            />
+          </View>
+          <Button title={"Sign Up"} onPress={handleSubmitLogin} />
         </View>
       )}
     </>
