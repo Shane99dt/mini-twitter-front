@@ -60,6 +60,7 @@ const UserContextProvider = ({ children }) => {
   const logout = () => {
     removeValue();
     setUser(null);
+    navigate("/auth/login");
   };
 
   const removeValue = async () => {

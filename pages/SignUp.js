@@ -9,7 +9,7 @@ const SignUp = () => {
       <Text style={GlobalStyles.titleText}>Sign up</Text>
       <Form type={"signup"} />
       <Text>
-        Already have an account?{" "}
+        Already have an account?
         <Link to={"/auth/login"} style={GlobalStyles.link}>
           <Text style={GlobalStyles.link}>Log in</Text>
         </Link>

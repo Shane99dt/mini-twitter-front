@@ -6,10 +6,10 @@ import GlobalStyles from "../styles/global/Global";
 const Login = () => {
   return (
     <View>
-      <Text>"Login"</Text>
+      <Text style={GlobalStyles.titleText}>Login</Text>
       <Form type={"login"} />
       <Text>
-        Don't have an account?{" "}
+        Don't have an account?
         <Link to={"/auth/signup"}>
           <Text style={GlobalStyles.link}>Sign up</Text>
         </Link>

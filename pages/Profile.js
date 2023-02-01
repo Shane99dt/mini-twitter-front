@@ -2,11 +2,11 @@ import { useContext, useEffect } from "react";
 import { Button, Text, View } from "react-native";
 import { useNavigate } from "react-router-native";
 import { UserContext } from "../context/User";
+import GlobalStyles from "../styles/global/Global";
 
 const Profile = () => {
   const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
-  console.log("Bello   " + user);
 
   useEffect(() => {
     if (!user) {
@@ -14,15 +14,11 @@ const Profile = () => {
     }
   }, []);
 
-  // if (user.user_metadata === {} || user.user_metadata == null) {
-  //   <Text>Please complete your profile!</Text>;
-  // }
-
   return (
     <>
       {user && (
-        <View>
-          <Text>Profile</Text>
+        <View style={GlobalStyles.container}>
+          <Text style={GlobalStyles.titleText}>Profile</Text>
           <Text>{user.user_metadata.firstName}</Text>
           <Text>{user.user_metadata.lastName}</Text>
           <Text>{user.user_metadata.age}</Text>

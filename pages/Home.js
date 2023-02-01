@@ -4,8 +4,7 @@ import GlobalStyles from "../styles/global/Global";
 import { UserContext } from "../context/User";
 import { useContext, useEffect, useState } from "react";
 import { AllTweets } from "../api/tweet";
-import Tweet from "../components/Tweet";
-import supabase from "../supabase/supabase";
+import TweetBox from "../components/TweetBox";
 
 const Home = () => {
   const { user, token } = useContext(UserContext);
@@ -26,22 +25,16 @@ const Home = () => {
 
   const fetchTweets = async () => {
     const response = await AllTweets(token);
-    // let { data: tweet, error } = await supabase.from("tweet").select("id");
     setTweets(response);
   };
 
   return (
     <View style={GlobalStyles.container}>
-      <Link to={"/auth/signup"}>
-        <Text>Sign up</Text>
-      </Link>
-      <Link to={"/auth/login"}>
-        <Text>Login</Text>
-      </Link>
+      <Text style={GlobalStyles.titleText}>Home</Text>
       {tweets && (
         <FlatList
           data={tweets}
-          renderItem={({ item }) => <Tweet tweet={item} />}
+          renderItem={({ item }) => <TweetBox tweet={item} />}
           keyExtractor={(item) => item.id}
         />
       )}
