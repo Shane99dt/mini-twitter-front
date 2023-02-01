@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Button, Text, TextInput, View } from "react-native";
 import { Login, Signup } from "../api/auth";
 import FormStyles from "../styles/FormStyles";
+import { UserContext } from "../context/User";
+import { useNavigate } from "react-router-native";
 
 const Form = ({ type }) => {
   const [firstName, setFirstName] = useState("Name 1");
   const [lastName, setLastName] = useState("Name 2");
   const [age, setAge] = useState("15");
-  const [email, setEmail] = useState("hello@yopmail.com");
+  const [email, setEmail] = useState("praufroipeipreiyi-3437@yopmail.com");
   const [password, setPassword] = useState("hellohello");
   const [passwordConfirmation, setPasswordConfirmation] = useState("123456789");
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const { setToken, user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/profile");
+    }
+  }, [user]);
 
   const handleSubmitSignUp = async (e) => {
     e.preventDefault();
@@ -24,6 +32,9 @@ const Form = ({ type }) => {
 
     const createUser = await Signup(user);
     setUser(createUser);
+    if (createUser) {
+      navigate("/profile");
+    }
     console.log(createUser);
   };
 
@@ -35,16 +46,19 @@ const Form = ({ type }) => {
       password,
     };
 
-    const loginUser = await Login(user);
-    setToken(loginUser);
-    console.log(loginUser);
+    const { access_token } = await Login(user);
+    if (access_token) {
+      setToken(access_token);
+      navigate("/profile");
+    } else {
+      navigate("/");
+    }
   };
 
   return (
     <>
       {type === "signup" && (
         <View>
-          <Text>Sign up</Text>
           <View style={FormStyles.input}>
             <Text>First Name</Text>
             <TextInput
@@ -106,7 +120,6 @@ const Form = ({ type }) => {
       )}
       {type === "login" && (
         <View>
-          <Text>Login</Text>
           <View style={FormStyles.input}>
             <Text>Email</Text>
 
@@ -126,7 +139,7 @@ const Form = ({ type }) => {
               secureTextEntry
             />
           </View>
-          <Button title={"Sign Up"} onPress={handleSubmitLogin} />
+          <Button title={"Log in"} onPress={handleSubmitLogin} />
         </View>
       )}
     </>

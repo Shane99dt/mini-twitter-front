@@ -12,7 +12,6 @@ const Signup = async (user) => {
       body: JSON.stringify(user),
     }
   );
-
   const response = await request.json();
   return response;
 };
@@ -34,4 +33,19 @@ const Login = async (user) => {
   return response;
 };
 
-export { Signup, Login };
+const User = async (token) => {
+  const request = await fetch(
+    "https://nfljiprvibgxdgyskudx.supabase.co/auth/v1/user",
+    {
+      headers: {
+        apikey: `${APIKEY}`,
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  const response = await request.json();
+  return response;
+};
+
+export { Signup, Login, User };

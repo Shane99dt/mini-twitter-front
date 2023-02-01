@@ -7,6 +7,18 @@ const GlobalStyles = StyleSheet.create({
     backgroundColor: "#dff",
     flex: 1,
   },
+
+  link: {
+    padding: 0,
+    margin: 0,
+    color: "blue",
+  },
+
+  titleText: {
+    fontSize: 25,
+    textAlign: "center",
+    marginVertical: 15,
+  },
 });
 
 export default GlobalStyles;
