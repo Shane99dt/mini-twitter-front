@@ -1,15 +1,16 @@
 import { useContext, useEffect } from "react";
-import { Text, View } from "react-native";
-import { Navigate, useNavigate } from "react-router-native";
+import { Button, Text, View } from "react-native";
+import { useNavigate } from "react-router-native";
 import { UserContext } from "../context/User";
 
 const Profile = () => {
-  const { user } = useContext(UserContext);
+  const { user, logout } = useContext(UserContext);
   const navigate = useNavigate();
+  console.log("Bello   " + user);
 
   useEffect(() => {
     if (!user) {
-      navigate("/");
+      navigate("/auth/login");
     }
   }, []);
 
@@ -25,6 +26,7 @@ const Profile = () => {
           <Text>{user.user_metadata.firstName}</Text>
           <Text>{user.user_metadata.lastName}</Text>
           <Text>{user.user_metadata.age}</Text>
+          <Button onPress={logout} title="Log out" />
         </View>
       )}
     </>

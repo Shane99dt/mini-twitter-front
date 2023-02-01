@@ -10,7 +10,7 @@ module.exports = function (api) {
           moduleName: "@env",
           path: ".env",
           blocklist: null,
-          allowlist: ["APIKEY"],
+          allowlist: ["APIKEY", "APPURL"],
           blacklist: null, // DEPRECATED
           whitelist: null, // DEPRECATED
           safe: false,

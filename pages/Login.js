@@ -1,4 +1,4 @@
-import { Button, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Link } from "react-router-native";
 import Form from "../components/Form";
 import GlobalStyles from "../styles/global/Global";

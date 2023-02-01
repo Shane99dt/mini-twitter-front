@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import SignUp from "./pages/SignUp";
+import Tweet from "./pages/Tweet";
 import GlobalStyles from "./styles/global/Global";
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
         <UserContextProvider>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/:id" element={<Tweet />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/auth/signup" element={<SignUp />} />
             <Route path="/auth/login" element={<Login />} />

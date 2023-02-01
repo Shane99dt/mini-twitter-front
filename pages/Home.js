@@ -5,24 +5,18 @@ import { UserContext } from "../context/User";
 import { useContext, useEffect, useState } from "react";
 import { AllTweets } from "../api/tweet";
 import Tweet from "../components/Tweet";
+import supabase from "../supabase/supabase";
 
 const Home = () => {
-  const { token, user } = useContext(UserContext);
+  const { user, token } = useContext(UserContext);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (token) {
-  //     navigate("/profile");
-  //   }
-  // }, [token]);
+  const [tweets, setTweets] = useState([]);
 
   useEffect(() => {
     if (!user) {
       navigate("/auth/login");
     }
   }, []);
-
-  const [tweets, setTweets] = useState([]);
 
   useEffect(() => {
     if (user) {
@@ -32,8 +26,8 @@ const Home = () => {
 
   const fetchTweets = async () => {
     const response = await AllTweets(token);
+    // let { data: tweet, error } = await supabase.from("tweet").select("id");
     setTweets(response);
-    console.log(response);
   };
 
   return (

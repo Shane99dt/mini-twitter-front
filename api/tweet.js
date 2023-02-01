@@ -32,7 +32,7 @@ const AllTweets = async (token) => {
   return response;
 };
 
-const Tweet = async (token, id) => {
+const GetTweet = async (token, id) => {
   const request = await fetch(
     `https://nfljiprvibgxdgyskudx.supabase.co/rest/v1/tweet?select=*&id=eq.${id}`,
     {
@@ -81,4 +81,4 @@ const DeleteTweet = async (token, id) => {
   return response;
 };
 
-export { PostTweet, AllTweets, Tweet, EditTweet, DeleteTweet };
+export { PostTweet, AllTweets, GetTweet, EditTweet, DeleteTweet };

@@ -3,6 +3,7 @@
 import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-native";
 import { User } from "../api/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const UserContext = createContext({});
 
@@ -11,13 +12,14 @@ const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const localToken = localStorage.getItem("token");
+  useEffect(() => {
+    const localToken = getData();
 
-  //   if (localToken) {
-  //     setToken(localToken);
-  //   }
-  // }, []);
+    if (localToken) {
+      setToken(localToken);
+    }
+  }, []);
+
   useEffect(() => {
     if (user) {
       navigate("/profile");
@@ -26,25 +28,52 @@ const UserContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      // localStorage.setItem("token", token);
+      storeData(token);
       getUser();
     }
   }, [token]);
 
   const getUser = async () => {
-    const { user } = await User(token);
-    setUser(user);
+    const response = await User(token);
+    console.log(response);
+    // setUser(user);
   };
 
-  // const logout = () => {
-  //   localStorage.removeItem("token");
-  //   setUser(null);
-  // };
+  const storeData = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("token", jsonValue);
+    } catch (e) {
+      return e;
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("token");
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      return e;
+    }
+  };
+
+  const logout = () => {
+    removeValue();
+    setUser(null);
+  };
+
+  const removeValue = async () => {
+    try {
+      await AsyncStorage.removeItem("token");
+    } catch (e) {
+      return e;
+    }
+  };
 
   const value = {
     setToken,
     user,
-    // logout,
+    logout,
     setUser,
     token,
   };

@@ -4,6 +4,7 @@ import { Login, Signup } from "../api/auth";
 import FormStyles from "../styles/FormStyles";
 import { UserContext } from "../context/User";
 import { useNavigate } from "react-router-native";
+import supabase from "../supabase/supabase";
 
 const Form = ({ type }) => {
   const [firstName, setFirstName] = useState("Name 1");
@@ -13,6 +14,7 @@ const Form = ({ type }) => {
   const [password, setPassword] = useState("hellohello");
   const [passwordConfirmation, setPasswordConfirmation] = useState("123456789");
   const { setToken, user, setUser } = useContext(UserContext);
+  const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,23 +37,36 @@ const Form = ({ type }) => {
     if (createUser) {
       navigate("/profile");
     }
-    console.log(createUser);
   };
 
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
 
-    const user = {
+    // const user = {
+    //   email,
+    //   password,
+    // };
+
+    // const { access_token } = await Login(user);
+    // if (access_token) {
+    //   setToken(access_token);
+    //   navigate("/auth/profile");
+    // } else {
+    //   navigate("/");
+    // }
+
+    let { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
-    };
+    });
 
-    const { access_token } = await Login(user);
-    if (access_token) {
-      setToken(access_token);
+    if (!error) {
+      setUser(data.user);
+      console.log(data.user);
+      setToken(data.session.access_token);
       navigate("/profile");
     } else {
-      navigate("/");
+      setErrors(error);
     }
   };
 
