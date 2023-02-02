@@ -19,6 +19,10 @@ const GlobalStyles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 15,
   },
+
+  error: {
+    color: "red",
+  },
 });
 
 export default GlobalStyles;

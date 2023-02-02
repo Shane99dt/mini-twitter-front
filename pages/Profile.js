@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Button, Text, View } from "react-native";
-import { useNavigate } from "react-router-native";
+import { Link, useNavigate } from "react-router-native";
 import { UserContext } from "../context/User";
 import GlobalStyles from "../styles/global/Global";
 
@@ -22,6 +22,9 @@ const Profile = () => {
           <Text>{user.user_metadata.firstName}</Text>
           <Text>{user.user_metadata.lastName}</Text>
           <Text>{user.user_metadata.age}</Text>
+          <Link to={"/auth/edit"}>
+            <Text style={GlobalStyles.link}>Edit profile</Text>
+          </Link>
           <Button onPress={logout} title="Log out" />
         </View>
       )}

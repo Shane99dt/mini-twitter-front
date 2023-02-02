@@ -5,6 +5,7 @@ import { UserContext } from "../context/User";
 import { useContext, useEffect, useState } from "react";
 import { AllTweets } from "../api/tweet";
 import TweetBox from "../components/TweetBox";
+import { RealtimeChannel } from "@supabase/supabase-js";
 
 const Home = () => {
   const { user, token } = useContext(UserContext);
@@ -31,6 +32,16 @@ const Home = () => {
   return (
     <View style={GlobalStyles.container}>
       <Text style={GlobalStyles.titleText}>Home</Text>
+      <View
+        style={{
+          marginTop: 5,
+          marginBottom: 15,
+        }}
+      >
+        <Link to={"/create"}>
+          <Text>Create tweet</Text>
+        </Link>
+      </View>
       {tweets && (
         <FlatList
           data={tweets}
